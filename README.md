@@ -1,92 +1,165 @@
-🛒 Cloud-Native Microservices E-Commerce System
+# Cloud-Native Microservices E-Commerce System
 
-Tech Stack: Java, Spring Boot, Apache Kafka, Redis, Docker
-Status: Final Optimization & Production Hardening Phase
+A production-style **cloud-native microservices-based e-commerce backend system** built using **Spring Boot 3** and **Spring Cloud**, focusing on scalability, service discovery, centralized configuration, and clean architecture.
 
-This project is a cloud-native e-commerce backend system built using Spring Boot microservices.
-It demonstrates real-world patterns such as asynchronous event-driven communication, caching for performance, and containerized deployments.
+This project demonstrates real-world backend engineering concepts used in modern distributed systems.
 
-Core business functionality is implemented, with the current focus on optimization, reliability, and deployment readiness.
+---
 
-🚀 Overview
+## 🚀 Architecture Overview
 
-The system is designed to handle core e-commerce workflows such as:
+The system follows a **microservices architecture** with centralized configuration and service discovery.
 
-Product management
+### Core Components
+- **API Gateway** – Single entry point for all client requests
+- **Discovery Server (Eureka)** – Service registration and discovery
+- **Config Server** – Centralized external configuration management
+- **Product Service** – Product catalog management
+- **Inventory Service** – Inventory availability and stock validation
+- **Order Service** – Order placement (extensible)
+- **Payment Service** – Payment handling (extensible)
 
-Order processing
+---
 
-Inventory updates
+## 🧱 Tech Stack
 
-It follows microservices best practices including loose coupling, scalability, and fault tolerance.
+- **Java 17**
+- **Spring Boot 3**
+- **Spring Cloud 2023**
+  - Eureka Discovery Server
+  - Spring Cloud Config
+  - API Gateway
+- **Spring Data JPA**
+- **PostgreSQL**
+- **WebClient** (Inter-service communication)
+- **Maven**
+- **Git & GitHub**
 
-✅ Implemented Features
+---
 
-Developed multiple Spring Boot microservices for:
+## 📦 Services & Ports
 
-Product management
+| Service            | Port |
+|--------------------|------|
+| Config Server      | 8888 |
+| Discovery Server   | 8761 |
+| API Gateway        | 8080 |
+| Product Service    | 8081 |
+| Inventory Service  | 8082 |
+| Order Service      | 8083 |
+| Payment Service    | 8084 |
 
-Order processing
+---
 
-Inventory management
+## 🔁 Inter-Service Communication
 
-Designed RESTful APIs for inter-service and client communication
+- **Product Service → Inventory Service**
+- Implemented using **Spring WebClient**
+- Inventory availability is validated before product-related operations
+- Fully service-discovery based (no hardcoded URLs)
 
-Implemented asynchronous communication using Apache Kafka for order processing workflows
+---
 
-Enabled event-driven architecture to decouple services
+## 🗄 Database Design
 
-Improved API response time by caching frequently accessed data using Redis
+- Each microservice uses **its own database schema**
+- **PostgreSQL** as the relational database
+- JPA + Hibernate for ORM
+- Schema auto-managed using `spring.jpa.hibernate.ddl-auto=update`
 
-Integrated database persistence for core business entities
+---
 
-Implemented basic error handling and logging for traceability
+## ⚙️ How to Run the Project (Local)
 
-🚧 Currently Improving
+### Prerequisites
+- Java 17
+- Maven
+- PostgreSQL
+- Git
 
-Kafka consumer reliability & retry handling
+### Step-by-Step Startup Order
 
-Redis cache eviction strategies
+1. **Start Config Server**
+   ```bash
+   cd config-server
+   mvn spring-boot:run
+Start Discovery Server
 
-API validation & edge-case handling
+cd discovery-server
+mvn spring-boot:run
 
-Docker image optimization
 
-Centralized exception handling
+Start API Gateway
 
-Documentation & architecture diagrams
+cd api-gateway
+mvn spring-boot:run
 
-🗺️ Short-Term Roadmap
 
-Finalize Docker Compose for multi-service startup
+Start Microservices
 
-Improve observability (logs & metrics readiness)
+cd product-service
+mvn spring-boot:run
 
-Optimize database queries
+cd inventory-service
+mvn spring-boot:run
 
-Harden inter-service communication
+🔍 Verification
 
-Final deployment notes
+Eureka Dashboard:
+👉 http://localhost:8761
 
-🛠️ Technology Stack
+Health Check:
 
-Language: Java
+GET /actuator/health
 
-Framework: Spring Boot
 
-Architecture: Microservices
+Inventory Check API:
 
-Messaging: Apache Kafka
+GET /api/inventory/{productName}
 
-Caching: Redis
+🧪 Sample API Response
+{
+  "productName": "MacBook Pro",
+  "available": true
+}
 
-Database: Relational Database
+🧠 Key Engineering Highlights
 
-Containerization: Docker
+Centralized configuration using Spring Cloud Config
 
-Tools: Git, Postman
+Service discovery using Eureka
 
-⚠️ Note
+Clean layered architecture (Controller, Service, Repository)
 
-This project is in its final optimization and stabilization phase.
-It reflects production-oriented backend engineering practices.
+Inter-service communication using WebClient
+
+Database-per-service design
+
+Production-grade project structure
+
+Git best practices followed
+
+📌 Future Enhancements
+
+Docker & Docker Compose
+
+Kafka for event-driven communication
+
+Circuit Breaker (Resilience4j)
+
+Distributed tracing (Zipkin)
+
+JWT-based authentication
+
+Deployment on AWS
+
+👨‍💻 Author
+
+Simhadri Uttareni
+Backend Engineer | Java | Spring Boot | Microservices
+
+GitHub:
+👉 https://github.com/simhadriuttareni
+
+⭐ If you find this project useful, feel free to star the repository.
+
